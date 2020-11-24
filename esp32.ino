@@ -1,8 +1,3 @@
-/**
- * author: buer
- * date: 2020.11.24
- * 
- */
 #include "SSD1306Wire.h"        // legacy: #include "SSD1306.h"
 #include <Wire.h>     
 #include <BleKeyboard.h>
@@ -14,27 +9,28 @@ Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
 void displayHello(){
   display.clear();
   display.setTextAlignment(TEXT_ALIGN_LEFT);
-  display.setFont(ArialMT_Plain_10);
+  display.setFont(ArialMT_Plain_16);
   display.drawStringMaxWidth(0, 0, 128,
       "Weclome to use King's fingerprint bluetooth keyboard!" );
   display.display();
 }
-
+void displayMeg(String word){
+    display.clear();
+    display.drawStringMaxWidth(0,0,128,word);
+    display.display();
+    delay(2000);
+}
 void connectFinger(){
   if (finger.verifyPassword()) {
-    display.clear();
-    //Serial.println("Found fingerprint sensor! :)");
-    display.drawString(0,0,"Found fingerprint sensor! :)");
-    display.display();
-    delay(1000);
+    displayMeg("Found fingerprint sensor! :)");
   } else {
     display.clear();
     //Serial.println("Did't find fingerprint sensor :(");
     display.drawStringMaxWidth(0,0,128,"Did't find fingerprint sensor :(");
     display.display();
-    delay(1000);
+    delay(2000);
     while (1) { 
-      delay(1000);
+      delay(2000);
       display.clear();
       //Serial.println("waiting for fingerprint sensor...");
       display.drawStringMaxWidth(0,0,128,"waiting for fingerprint sensor..."); 
@@ -45,39 +41,26 @@ void connectFinger(){
 void getValid(){
   finger.getTemplateCount();
   if (finger.templateCount == 0) {
-    display.clear();
-    display.drawStringMaxWidth(0,0,128,"Sensor doesn't contain any fingerprint data. Please run the 'enroll'.");
-    display.display();
-    delay(1000);
+    displayMeg("Sensor doesn't contain any fingerprint data. Please run the 'enroll'.");
   }
   else {
-    display.clear();
-    display.drawStringMaxWidth(0,0,128,"Waiting for valid finger...");
-    display.display();
-    delay(1000);
-    display.clear();
-    display.drawString(0,0,"Sensor contains templates");
-    display.display();
+    displayMeg("Waiting for valid finger...");
+    displayMeg("Sensor contains templates");
   }
 }
-void displayMeg(String word){
-    display.clear();
-    display.drawString(0,0,word);
-    display.display();
-    delay(1000);
-}
+
 void sendPassword(uint8_t id){
     display.clear();
     char stringId[25];
     itoa(id,stringId,10);
     display.drawString(0,0,"Fingerprint id :");
-    display.drawString(0,10,stringId);
+    display.drawString(0,16,stringId);
     display.display();
     if(bleKeyboard.isConnected()) {
-      bleKeyboard.print("helloworld");
+      bleKeyboard.print("helloworld");//自定义密码
       bleKeyboard.write(KEY_RETURN);
     }
-    display.drawString(0,20,"Bluetooth sended!");
+    display.drawString(0,32,"Key sended by BT!");
     display.display();
     delay(3000);
 }
@@ -159,6 +142,6 @@ void setup() {
 }
 
 void loop() {
-  displayMeg("wait your finger,king!");
+  displayMeg("Waiting your finger,king!");
   getFingerprintID();
 }
