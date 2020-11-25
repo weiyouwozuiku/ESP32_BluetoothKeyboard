@@ -6,6 +6,8 @@
 BleKeyboard bleKeyboard;
 SSD1306Wire display(0x3c, 21, 22);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); 
+//ESP32上的蓝色指示灯，GPIO2控制
+const int led=2;
 void displayHello(){
   display.clear();
   display.setTextAlignment(TEXT_ALIGN_LEFT);
@@ -58,6 +60,7 @@ void getValid(){
 }
 
 void sendPassword(uint8_t id){
+    digitalWrite(led,HIGH);
     display.clear();
     char stringId[25];
     itoa(id,stringId,10);
@@ -71,6 +74,7 @@ void sendPassword(uint8_t id){
     display.drawString(0,32,"Key sended by BT!");
     display.display();
     delay(3000);
+    digitalWrite(led,LOW);
 }
 uint8_t getFingerprintID(){
   uint8_t p = finger.getImage();
@@ -150,6 +154,7 @@ void checkBlueTooth(){
 void setup() {
   //Serial.begin(115200);
   //Serial.println("Weclome to use King's fingerprint bluetooth keyboard!");
+  pinMode(2, OUTPUT);
   display.init();
   display.flipScreenVertically();
   displayHello();
