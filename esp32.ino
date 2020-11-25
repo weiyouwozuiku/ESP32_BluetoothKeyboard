@@ -14,11 +14,19 @@ void displayHello(){
       "Weclome to use King's fingerprint bluetooth keyboard!" );
   display.display();
 }
-void displayMeg(String word){
+void displayMeg(String meg,int showTime=2000){
     display.clear();
-    display.drawStringMaxWidth(0,0,128,word);
+    display.drawStringMaxWidth(0,0,128,meg);
     display.display();
-    delay(2000);
+    delay(showTime);
+}
+void displayMeg3line(String meg1,String meg2,String meg3,int showTime=2000){
+    display.clear();
+    display.drawString(0,0,meg1);
+    display.drawString(0,16,meg2);
+    display.drawString(0,32,meg3);
+    display.display();
+    delay(showTime);
 }
 void connectFinger(){
   if (finger.verifyPassword()) {
@@ -33,19 +41,19 @@ void connectFinger(){
       delay(2000);
       display.clear();
       //Serial.println("waiting for fingerprint sensor...");
-      display.drawStringMaxWidth(0,0,128,"waiting for fingerprint sensor..."); 
+      display.drawStringMaxWidth(0,0,128,"Waiting for fingerprint sensor..."); 
       display.display();
       }
   }
 }
 void getValid(){
+  displayMeg("Waiting for valid finger...",1000);
   finger.getTemplateCount();
   if (finger.templateCount == 0) {
     displayMeg("Sensor doesn't contain any fingerprint data. Please run the 'enroll'.");
   }
   else {
-    displayMeg("Waiting for valid finger...");
-    displayMeg("Sensor contains templates");
+    displayMeg("Sensor contains templates!   ._.");
   }
 }
 
@@ -57,7 +65,7 @@ void sendPassword(uint8_t id){
     display.drawString(0,16,stringId);
     display.display();
     if(bleKeyboard.isConnected()) {
-      bleKeyboard.print("helloworld");//自定义密码
+      bleKeyboard.print("hello world");//自定义密码
       bleKeyboard.write(KEY_RETURN);
     }
     display.drawString(0,32,"Key sended by BT!");
@@ -129,6 +137,16 @@ uint8_t getFingerprintID(){
   sendPassword(finger.fingerID);
   return finger.fingerID;
 }
+void checkBlueTooth(){
+  String bluetoothStatue;
+  if(bleKeyboard.isConnected()){
+    bluetoothStatue="BT connected!";
+    displayMeg3line(bluetoothStatue,"Waiting your fing-","er,king!",50);
+  }else{
+    bluetoothStatue="BT unconnected!";
+    displayMeg3line(bluetoothStatue,"Please restart or ","connect!",50);
+  }
+}
 void setup() {
   //Serial.begin(115200);
   //Serial.println("Weclome to use King's fingerprint bluetooth keyboard!");
@@ -142,6 +160,7 @@ void setup() {
 }
 
 void loop() {
-  displayMeg("Waiting your finger,king!");
+//  displayMeg("Waiting your finger,king!");
+  checkBlueTooth();
   getFingerprintID();
 }
