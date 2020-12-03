@@ -20,3 +20,6 @@ AS608:
 ![](https://cdn.jsdelivr.net/gh/weiyouwozuiku/buerlog_img/BlogImage/ESP32%E6%8C%87%E7%BA%B9%E8%93%9D%E7%89%99%E9%94%AE%E7%9B%98%E5%BC%80%E5%8F%91_%E8%BF%9E%E7%BA%BF%E5%9B%BE.png)
 
 详情请见[博客](https://buerlog.top/2020/11/18/esp32-zhi-wen-lan-ya-jian-pan-kai-fa)。
+
+## 最终实物图
+![](https://cdn.jsdelivr.net/gh/weiyouwozuiku/buerlog_img/BlogImage/ESP32%E6%8C%87%E7%BA%B9%E8%93%9D%E7%89%99%E9%94%AE%E7%9B%98%E5%BC%80%E5%8F%91_%E5%AE%9E%E7%89%A9%E5%9B%BE.jpg)
