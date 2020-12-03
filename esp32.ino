@@ -16,13 +16,13 @@ void displayHello(){
       "Weclome to use King's fingerprint bluetooth keyboard!" );
   display.display();
 }
-void displayMeg(String meg,int showTime=2000){
+void displayMeg(String meg,int showTime=200){
     display.clear();
     display.drawStringMaxWidth(0,0,128,meg);
     display.display();
     delay(showTime);
 }
-void displayMeg3line(String meg1,String meg2,String meg3,int showTime=2000){
+void displayMeg3line(String meg1,String meg2,String meg3,int showTime=1000){
     display.clear();
     display.drawString(0,0,meg1);
     display.drawString(0,16,meg2);
@@ -145,7 +145,7 @@ void checkBlueTooth(){
   String bluetoothStatue;
   if(bleKeyboard.isConnected()){
     bluetoothStatue="BT connected!";
-    displayMeg3line(bluetoothStatue,"Waiting your fing-","er,king!",50);
+    displayMeg3line(bluetoothStatue,"Waiting your fing-","er,King!",50);
   }else{
     bluetoothStatue="BT unconnected!";
     displayMeg3line(bluetoothStatue,"Please restart or ","connect!",50);
