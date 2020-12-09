@@ -57,10 +57,14 @@ def displayInfo():
     disp.image(image)
     disp.show()
     time.sleep(0.1)
-
-def logToFile(filePath, word) -> bool:
+    
+def logToFile(filePath, *words) -> bool:
     with open(filePath, 'a+', encoding="utf8")as f:
-        print(word, file=f)
+        for word in words:
+            print(word, file=f, end="")
+        print(file=f)
+        return True
+    return False
 
 def checkTouch():
     info = GPIO.input(Touch)
